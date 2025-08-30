@@ -21,7 +21,7 @@ namespace Ogani.Controllers
         }
         public IActionResult Details(int id)
         {
-            var product = _dbContext.Products.Include(p => p.Category!).Include(p => p.Images).FirstOrDefault(p => p.Id == id);
+            var product = _dbContext.Products.Include(p => p.Category!).Include(p => p.ProductImages).FirstOrDefault(p => p.Id == id);
 
             if (product == null) return NotFound();
 

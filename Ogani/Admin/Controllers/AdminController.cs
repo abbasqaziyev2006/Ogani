@@ -6,5 +6,6 @@ namespace Ogani.Admin.Controllers
     public class AdminController : Controller
     {
     }
+
 }
 
