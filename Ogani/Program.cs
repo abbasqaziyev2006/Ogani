@@ -18,9 +18,8 @@ namespace Ogani
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            PathConstants.ProductPath = Path.Combine(builder.Environment.WebRootPath, "uploads", "products");
-
-            PathConstants.CategoryPath = Path.Combine(builder.Environment.WebRootPath, "uploads", "categories");
+            PathConstants.ProductPath = Path.Combine(builder.Environment.WebRootPath, "img/product");
+            PathConstants.CategoryPath = Path.Combine(builder.Environment.WebRootPath, "img/categories");
 
             var app = builder.Build();
 

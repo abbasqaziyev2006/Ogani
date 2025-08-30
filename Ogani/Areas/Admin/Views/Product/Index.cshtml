@@ -11,32 +11,24 @@
             <tr>
                 <th>Cover</th>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Price</th>
-                <th>Weight</th>
-                <th>Stock</th>
                 <th>Category</th>
-                <th>Tags</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in Model)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
-                        @if (!string.IsNullOrEmpty(product.ImageUrl))
-                        {
-                            <img src="~/uploads/products/@product.ImageUrl" width="70" class="img-thumbnail" />
-                        }
+                        <img src="~/uploads/products/@item.ImageUrl" alt="@item.Name" style="width:100px;height:100px;" />
                     </td>
-                    <td>@product.Name</td>
-                    <td>@product.Price.ToString("C")</td>
-                    <td>@product.Category?.Name</td>
+                    <td>@item.Name</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.Category?.Name</td>
                     <td>
-                        <a class="btn btn-sm btn-info" asp-controller="product" asp-action="details" asp-route-id="@product.Id">Details</a>
-                        <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteProduct(@product.Id, this)">Delete</button>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-sm" onclick="deleteProduct(@item.Id, this)">Delete</button>
                     </td>
                 </tr>
             }
@@ -48,19 +40,15 @@
     function deleteProduct(id, element) {
         if (!confirm("Are you sure you want to delete this product?")) return;
 
-        fetch(`https://localhost:7058/Admin/product/delete/${id}`, {
-            method: "POST"
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                element.closest("tr").remove();
-            } else {
-                alert(data.message || "Failed to delete product.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+        fetch(`/Admin/Product/DeleteProduct/${id}`, { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    element.closest("tr").remove();
+                } else {
+                    alert("Failed to delete product.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
     }
 </script>

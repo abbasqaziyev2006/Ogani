@@ -18,4 +18,5 @@ namespace Ogani.Areas.Admin.Models
         public int[] TagIds { get; set; } = [];
         public List<SelectListItem> TagSelectListItems { get; set; } = [];
     }
-}
+    }
+

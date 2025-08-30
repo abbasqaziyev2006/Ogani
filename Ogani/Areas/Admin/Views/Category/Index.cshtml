@@ -28,17 +28,21 @@
                                 {
                                     <tr>
                                         <td>
+                                        <td>
                                             @if (!string.IsNullOrEmpty(category.ImageUrl))
                                             {
-                                                <img src="~/uploads/categories/@category.ImageUrl" alt="@category.Name" class="img-thumbnail"
+                                                <img src="@Url.Content($"~/uploads/categories/{category.ImageUrl}")"
+                                                     alt="@category.Name" class="img-thumbnail"
                                                      style="width: 80px; height: 80px; object-fit: cover;" />
                                             }
                                             else
                                             {
-                                                <img src="~/images/no-image.png" alt="No Image" class="img-thumbnail"
+                                                <img src="@Url.Content("~/images/no-image.png")"
+                                                     alt="No Image" class="img-thumbnail"
                                                      style="width: 80px; height: 80px; object-fit: cover;" />
                                             }
                                         </td>
+          
                                         <td>@category.Name</td>
                                         <td>
                                             <a class="btn btn-sm btn-info" asp-controller="category" asp-action="details" asp-route-id="@category.Id">
