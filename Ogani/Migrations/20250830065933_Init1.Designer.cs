@@ -11,8 +11,8 @@ using Ogani.DataContext;
 namespace Ogani.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250829200752_Init")]
-    partial class Init
+    [Migration("20250830065933_Init1")]
+    partial class Init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace Ogani.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -58,6 +61,7 @@ namespace Ogani.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
@@ -77,6 +81,12 @@ namespace Ogani.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -106,7 +116,7 @@ namespace Ogani.Migrations
             modelBuilder.Entity("Ogani.DataContext.Entities.ProductImage", b =>
                 {
                     b.HasOne("Ogani.DataContext.Entities.Product", "Product")
-                        .WithMany("Images")
+                        .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -121,7 +131,7 @@ namespace Ogani.Migrations
 
             modelBuilder.Entity("Ogani.DataContext.Entities.Product", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618
         }

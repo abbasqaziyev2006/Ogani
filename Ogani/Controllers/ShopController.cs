@@ -15,25 +15,18 @@ namespace Ogani.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-        public IActionResult Details(int id)
-        {
-            var product = _dbContext.Products.Include(p => p.Category!).Include(p => p.ProductImages).FirstOrDefault(p => p.Id == id);
+            var products = await _dbContext.Products.ToListAsync();
+            var categories = await _dbContext.Categories.ToListAsync();
 
-            if (product == null) return NotFound();
-
-            var relatedProducts = _dbContext.Products.Where(p => p.CategoryId == product.CategoryId && p.Id != product.Id).Take(4).ToList();
-
-            var productDetailsViewModel = new ProductDetailsViewModel
+            var shopViewModel = new ShopViewModel
             {
-                Product = product,
-                RelatedProducts = relatedProducts
+                Products = products,
+                Categories = categories
             };
 
-            return View(productDetailsViewModel);
+            return View(shopViewModel);
         }
     }
 }

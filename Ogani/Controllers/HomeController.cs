@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Ogani.DataContext;
 using Ogani.Models;
 using System.Diagnostics;

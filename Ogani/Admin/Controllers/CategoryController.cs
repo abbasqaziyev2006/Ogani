@@ -84,6 +84,7 @@ namespace OganiAdminPanelTask.Areas.Admin.Controllers
 
             var categoryUpdateViewModel = new CategoryUpdateViewModel
             {
+                Id = category.Id,
                 Name = category.Name,
                 ImageUrl = category.ImageUrl,
             };
