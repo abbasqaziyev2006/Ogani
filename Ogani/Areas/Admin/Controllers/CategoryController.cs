@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Ogani.Admin.Controllers;
-using Ogani.Admin.Data;
 using Ogani.DataContext.Entities;
 using Ogani.DataContext;
-using Ogani.Admin.Models;
+using Ogani.Areas.Admin.Data;
+using Ogani.Areas.Admin.Models;
 
 
-namespace OganiAdminPanelTask.Areas.Admin.Controllers
+namespace Ogani.Areas.Admin.Controllers
 {
     public class CategoryController : AdminController
     {

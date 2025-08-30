@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Ogani.Admin.Controllers
+namespace Ogani.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class AdminController : Controller

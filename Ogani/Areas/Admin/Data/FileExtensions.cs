@@ -1,4 +1,4 @@
-﻿namespace Ogani.Admin.Data
+﻿namespace Ogani.Areas.Admin.Data
 {
     public static class FileExtensions
     {

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Ogani.Admin.Controllers
+namespace Ogani.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class DashboardController : Controller
+    public class DashboardController : AdminController
     {
         public IActionResult Index()
         {

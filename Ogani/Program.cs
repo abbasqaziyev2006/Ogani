@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.EntityFrameworkCore;
-using Ogani.Admin.Data;
+using Ogani.Areas.Admin.Data;
 using Ogani.DataContext;
 
 namespace Ogani

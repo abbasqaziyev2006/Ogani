@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Ogani.Admin.Models
+namespace Ogani.Areas.Admin.Models
 {
     public class ProductCreateViewModel
     {

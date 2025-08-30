@@ -1,4 +1,4 @@
-﻿namespace Ogani.Admin.Models
+﻿namespace Ogani.Areas.Admin.Models
 {
     public class CategoryUpdateViewModel
     {

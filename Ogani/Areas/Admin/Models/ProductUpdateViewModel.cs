@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Ogani.DataContext.Entities;
 
-namespace Ogani.Admin.Models
+namespace Ogani.Areas.Admin.Models
 {
     public class ProductUpdateViewModel
     {
