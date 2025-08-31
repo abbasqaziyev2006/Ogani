@@ -1,30 +1,38 @@
-﻿﻿@using Ogani.Areas.Admin.Models
+﻿@using Ogani.Areas.Admin.Models
 @model CategoryCreateViewModel
 
-<div class="row">
-    <div class="col-md-6 grid-margin stretch-card">
+<div class="row justify-content-center">
+    <div class="col-md-6">
         <div class="card shadow-sm rounded-3">
             <div class="card-body">
-                <h4 class="card-title">Add Category</h4>
-                <form asp-action="create" method="post" enctype="multipart/form-data" class="forms-sample">
+                <h4 class="card-title mb-4">Add Category</h4>
 
-                    <div class="form-group mb-3">
-                        <label asp-for="Name">Category Name</label>
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+                    <!-- Category Name -->
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label fw-bold">Category Name</label>
                         <input asp-for="Name" class="form-control" placeholder="Enter category name" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <span asp-validation-for="Name" class="text-danger small"></span>
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label for="ImageFile">Category Image</label>
+                    <!-- Category Image -->
+                    <div class="mb-3">
+                        <label for="ImageFile" class="form-label fw-bold">Category Image</label>
                         <input type="file" name="ImageFile" class="form-control" accept="image/*" />
                         <small class="form-text text-muted">Upload an image for the category</small>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mr-2"><i class="mdi mdi-check"></i>Submit</button>
-                    <a asp-controller="category" asp-action="index" class="btn btn-light">Cancel</a>
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="mdi mdi-check"></i> Submit
+                        </button>
+                        <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
-

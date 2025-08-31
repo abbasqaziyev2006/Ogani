@@ -131,11 +131,12 @@
                             <span class="hide-menu">Home</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link primary-hover-bg" href="./index.html" aria-expanded="false">
+                            <a class="sidebar-link primary-hover-bg" href="@Url.Action("Index", "Home")" aria-expanded="false">
                                 <iconify-icon icon="solar:atom-line-duotone"></iconify-icon>
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
+
                         <!-- Categories -->
                         <li class="sidebar-item">
                             <a class="sidebar-link primary-hover-bg has-arrow" data-toggle="collapse" href="#categoriesMenu" aria-expanded="false" aria-controls="categoriesMenu">
@@ -2066,7 +2067,7 @@
     <script src="~/admin/assets/js/dashboard.js"></script>
     <!-- solar icons -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>

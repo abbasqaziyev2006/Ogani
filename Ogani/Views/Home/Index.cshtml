@@ -1,4 +1,6 @@
 ﻿@using Ogani.DataContext.Entities
+@model HomeViewModel
+
 @{
     HomeViewModel model = Model;
     var products = model.Products;
@@ -16,12 +18,9 @@
                         <span>All departments</span>
                     </div>
                     <ul>
-                        @foreach (var category in categories)
+                        @foreach (var category in Model.Categories)
                         {
-                            @if (category != null)
-                            {
-                                <li><a href="#">@category.Name</a></li>
-                            }
+                            <li><a href="#">@category.Name</a></li>
                         }
                     </ul>
                 </div>
@@ -66,16 +65,13 @@
     <div class="container">
         <div class="row">
             <div class="categories__slider owl-carousel">
-                @foreach (var category in categories)
+                @foreach (var category in Model.Categories)
                 {
-                    @if (category != null)
-                    {
-                        <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="img/categories/@category.ImageUrl">
-                                <h5><a href="#">@category.Name</a></h5>
-                            </div>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="uploads/categories/@category.ImageUrl">
+                            <h5><a href="#">@category.Name</a></h5>
                         </div>
-                    }
+                    </div>
                 }
             </div>
         </div>
@@ -93,20 +89,19 @@
                 <div class="featured__controls">
                     <ul>
                         <li class="active" data-filter="*">All</li>
-                        <li data-filter=".oranges">Oranges</li>
-                        <li data-filter=".fresh-meat">Fresh Meat</li>
-                        <li data-filter=".vegetables">Vegetables</li>
-                        <li data-filter=".fastfood">Fastfood</li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="row featured__filter">
-            @foreach (var product in products)
+
+            @foreach (var product in Model.Products)
             {
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                var categoryClass = product.Category?.Name?.ToLower().Replace(" ", "-") ?? "";
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mix @categoryClass">
                     <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/product/@product.ImageUrl">
+                        <div class="featured__item__pic set-bg" data-setbg="@Url.Content($"~/uploads/products/{product.ImageUrl}")">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -114,12 +109,17 @@
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a asp-controller="product" asp-action="details" asp-route-id="@product.Id">@product.Name</a></h6>
-                            <h5>$@product.Price</h5>
+                            <h6>
+                                <a asp-controller="Shop" asp-action="Details" asp-route-id="@product.Id">
+                                    @product.Name
+                                </a>
+                            </h6>
+                            <h5>@product.Price.ToString("C")</h5>
                         </div>
                     </div>
                 </div>
             }
+
         </div>
     </div>
 </section>
@@ -146,205 +146,54 @@
 <section class="latest-product spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Latest Products</h4>
-                    <div class="latest-product__slider owl-carousel">
-                        <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-1.jpg" alt="">
+            @{
+                var sections = new Dictionary<string, List<Product>>()
+                        {
+                        { "Latest Products", Model.Products.Take(6).ToList() },
+                        { "Top Rated Products", Model.Products.Take(6).ToList() },
+                        { "Review Products", Model.Products.Take(6).ToList() }
+                        };
+
+                List<List<Product>> SliceProducts(List<Product> products, int size)
+                {
+                    var slice = new List<List<Product>>();
+                    for (int i = 0; i < products.Count; i += size)
+                        slice.Add(products.Skip(i).Take(size).ToList());
+                    return slice;
+                }
+            }
+
+            @foreach (var productSection in sections)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="latest-product__text">
+                        <h4>@productSection.Key</h4>
+                        <div class="latest-product__slider owl-carousel">
+
+                            @foreach (var slice in SliceProducts(productSection.Value, 3))
+                            {
+                                <div class="latest-prdouct__slider__item">
+                                    @foreach (var product in slice)
+                                    {
+                                        <a href="#" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img src="~/uploads/products/@product.ImageUrl" alt="@product.Name">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6>@product.Name</h6>
+                                                <span>@product.Price.ToString("C")</span>
+                                            </div>
+                                        </a>
+                                    }
                                 </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-2.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-3.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-1.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-2.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-3.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
+                            }
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Top Rated Products</h4>
-                    <div class="latest-product__slider owl-carousel">
-                        <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-1.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-2.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-3.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-1.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-2.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-3.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Review Products</h4>
-                    <div class="latest-product__slider owl-carousel">
-                        <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-1.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-2.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-3.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-1.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-2.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="~/img/latest-product/lp-3.jpg" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
-<!-- Latest Product Section End -->
 <!-- Blog Section Begin -->
 <section class="from-blog spad">
     <div class="container">
@@ -404,3 +253,4 @@
         </div>
     </div>
 </section>
+<!-- Blog Section End -->

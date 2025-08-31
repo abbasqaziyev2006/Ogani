@@ -2,57 +2,65 @@
 @model ProductUpdateViewModel
 
 <div class="container mt-4">
-    <h2>Update Product</h2>
+    <h2 class="mb-4">Edit Product</h2>
 
-    <form asp-action="Update" enctype="multipart/form-data" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="Update" method="post" enctype="multipart/form-data" class="card p-4 shadow-sm">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
         <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="Name" class="form-label fw-bold">Product Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter product name..." />
+            <span asp-validation-for="Name" class="text-danger small"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Description" class="form-label"></label>
-            <textarea asp-for="Description" class="form-control"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <label asp-for="Description" class="form-label fw-bold">Description</label>
+            <textarea asp-for="Description" rows="3" class="form-control" placeholder="Write short description..."></textarea>
+            <span asp-validation-for="Description" class="text-danger small"></span>
         </div>
 
         <div class="row">
             <div class="col-md-4 mb-3">
-                <label asp-for="Price" class="form-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <label asp-for="Price" class="form-label fw-bold">Price</label>
+                <input asp-for="Price" class="form-control" placeholder="0.00" />
+                <span asp-validation-for="Price" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-8 mb-3">
+                <label asp-for="CategoryId" class="form-label fw-bold">Category</label>
+                <select asp-for="CategoryId" asp-items="Model.CategorySelectListItems" class="form-select">
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger small"></span>
             </div>
         </div>
 
         <div class="mb-3">
-            <label asp-for="CategoryId" class="form-label">Category</label>
-            <select asp-for="CategoryId" asp-items="Model.CategorySelectListItems" class="form-select"></select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Current Cover</label><br />
+            <label class="form-label fw-bold">Cover Image</label><br />
             @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
             {
-                <img src="~/uploads/products/@Model.CoverImageUrl" width="100" class="img-thumbnail mb-2" />
+                <img src="~/uploads/products/@Model.CoverImageUrl" width="120" class="img-thumbnail mb-2 shadow-sm" />
             }
             <input asp-for="CoverImageFile" type="file" class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Gallery Images</label><br />
+            <label class="form-label fw-bold">Gallery</label><br />
             @if (Model.Images != null && Model.Images.Any())
             {
-                @foreach (var image in Model.Images)
-                {
-                    <img src="~/uploads/products/@image.ImageUrl" width="70" class="img-thumbnail me-1 mb-1" />
-                }
+                <div class="d-flex flex-wrap">
+                    @foreach (var img in Model.Images)
+                    {
+                        <img src="~/uploads/products/@img.ImageUrl" width="80" class="img-thumbnail me-2 mb-2 shadow-sm" />
+                    }
+                </div>
             }
             <input asp-for="ImageFiles" type="file" multiple class="form-control mt-2" />
         </div>
 
-        <button type="submit" class="btn btn-success">Update</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">⬅ Back</a>
+        </div>
     </form>
 </div>

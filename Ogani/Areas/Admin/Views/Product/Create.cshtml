@@ -1,59 +1,69 @@
 ﻿@using Ogani.Areas.Admin.Models
 @model ProductCreateViewModel
+
 <div class="container mt-4">
-    <h2>Create Product</h2>
+    <h2 class="mb-4">Add New Product</h2>
 
-    <form asp-action="Create" enctype="multipart/form-data" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="Create" method="post" enctype="multipart/form-data" class="card p-4 shadow-sm">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
+        <!-- Product Name -->
         <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="Name" class="form-label fw-bold">Product Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter product name..." />
+            <span asp-validation-for="Name" class="text-danger small"></span>
         </div>
 
+        <!-- Description -->
         <div class="mb-3">
-            <label asp-for="Description" class="form-label"></label>
-            <textarea asp-for="Description" class="form-control"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <label asp-for="Description" class="form-label fw-bold">Description</label>
+            <textarea asp-for="Description" rows="3" class="form-control" placeholder="Write short description..."></textarea>
+            <span asp-validation-for="Description" class="text-danger small"></span>
         </div>
 
+        <!-- Price, Weight, Stock -->
         <div class="row">
             <div class="col-md-4 mb-3">
-                <label asp-for="Price" class="form-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <label asp-for="Price" class="form-label fw-bold">Price</label>
+                <input asp-for="Price" class="form-control" placeholder="0.00" />
             </div>
             <div class="col-md-4 mb-3">
-                <label asp-for="Weight" class="form-label"></label>
-                <input asp-for="Weight" class="form-control" />
+                <label asp-for="Weight" class="form-label fw-bold">Weight (kg)</label>
+                <input asp-for="Weight" class="form-control" placeholder="0.0" />
             </div>
             <div class="col-md-4 mb-3">
-                <label asp-for="StockQuantity" class="form-label"></label>
-                <input asp-for="StockQuantity" class="form-control" />
+                <label asp-for="StockQuantity" class="form-label fw-bold">Stock Quantity</label>
+                <input asp-for="StockQuantity" class="form-control" placeholder="0" />
             </div>
         </div>
 
+        <!-- Category -->
         <div class="mb-3">
-            <label asp-for="CategoryId" class="form-label">Category</label>
-            <select asp-for="CategoryId" asp-items="Model.CategorySelectListItems" class="form-select"></select>
+            <label asp-for="CategoryId" class="form-label fw-bold">Category</label>
+            <select asp-for="CategoryId" asp-items="Model.CategorySelectListItems" class="form-select">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger small"></span>
         </div>
 
+        <!-- Cover Image -->
         <div class="mb-3">
-            <label class="form-label">Tags</label><br />
-
-        <div class="mb-3">
-            <label asp-for="CoverImageFile" class="form-label">Cover Image</label>
+            <label asp-for="CoverImageFile" class="form-label fw-bold">Cover Image</label>
             <input asp-for="CoverImageFile" type="file" class="form-control" />
-            <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+            <span asp-validation-for="CoverImageFile" class="text-danger small"></span>
         </div>
 
+        <!-- Additional Images -->
         <div class="mb-3">
-            <label asp-for="ImageFiles" class="form-label">Additional Images</label>
+            <label asp-for="ImageFiles" class="form-label fw-bold">Additional Images</label>
             <input asp-for="ImageFiles" type="file" multiple class="form-control" />
-            <span asp-validation-for="ImageFiles" class="text-danger"></span>
+            <span asp-validation-for="ImageFiles" class="text-danger small"></span>
         </div>
 
-        <button type="submit" class="btn btn-success">Save</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <!-- Buttons -->
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">💾 Save Product</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">⬅ Cancel</a>
+        </div>
     </form>
 </div>
